@@ -25,7 +25,7 @@ for iter = 1:num_iters
 	%theta_3 = theta(3) - alpha * J_3;    
 	%theta = [theta_1; theta_2; theta_3];
 
-	 theta = theta - alpha * X' * (X * theta - y) / m;
+	theta = theta - alpha * X' * (X * theta - y) / m;
     % ============================================================
 
     % Save the cost J in every iteration    
