@@ -67,17 +67,39 @@ for i = 1:m
 end
 
 X1 = [ones(m, 1) X];
-a1 = sigmoid(X1*Theta1');
+a2 = sigmoid(X1*Theta1');
 
-a11 = [ones(m, 1) a1];
-a2 = sigmoid(a11*Theta2');
+a22 = [ones(m, 1) a2];
+a3 = sigmoid(a22*Theta2');
 
-J = sum(sum(-yb.*log(a2) - (1 - yb).*log(1 - a2)))/m;
+J = sum(sum(-yb.*log(a3) - (1 - yb).*log(1 - a3)))/m;
 
 J = J + lambda * (sum(sum(Theta1(:, 2:end).^2)) + sum(sum(Theta2(:,2:end).^2))) /(2*m);
 
+for t = 1:m
+	a_1 = [1; X(t,:)'];
+	
+	z_2 = Theta1 * a_1;
+	a_2 = sigmoid(z_2);
+	a_2 = [1; a_2];
 
+	z_3 = Theta2 * a_2;
+	a_3 = sigmoid(z_3);
+	
+	yt = yb(t,:)';
+	delta3 = a_3 - yt;
+	
+	delta2 = (Theta2)' * delta3 .* sigmoidGradient([1;z_2]);
+	delta2 = delta2(2:end);
 
+	Theta2_grad = Theta2_grad + delta3*a_2';
+	Theta1_grad = Theta1_grad + delta2*a_1';
+end
+
+p1 = (lambda/m)*[zeros(size(Theta1, 1), 1) Theta1(:, 2:end)];
+p2 = (lambda/m)*[zeros(size(Theta2, 1), 1) Theta2(:, 2:end)];
+Theta1_grad = Theta1_grad/m + p1;
+Theta2_grad = Theta2_grad/m + p2;
 
 % -------------------------------------------------------------
 

@@ -18,3 +18,4 @@ h2 = sigmoid([ones(m, 1) h1] * Theta2');
 
 
 end
+
