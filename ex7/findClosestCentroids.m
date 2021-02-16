@@ -21,12 +21,13 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
-
-
-
-
-
+for i = 1:size(X,1)
+	dist = zeros(K, 1);
+	for j = 1:K
+		dist(j) = sqrt(sum((X(i,:) - centroids(j,:)).^2));
+	end
+	[~, idx(i)] = min(dist);
+end
 % =============================================================
 
 end
